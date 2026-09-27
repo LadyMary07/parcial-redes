@@ -1,90 +1,261 @@
 {
-  "annotations": {
-    "list": []
-  },
+  "annotations": { "list": [] },
   "editable": true,
   "fiscalYearStartMonth": 0,
-  "graphTooltip": 0,
+  "graphTooltip": 1,
   "id": null,
   "links": [],
-  "liveNow": false,
+  "liveNow": true,
   "panels": [
     {
-      "datasource": {
-        "type": "grafana-postgresql-datasource",
-        "uid": "postgres_uid"
+      "datasource": { "type": "grafana-postgresql-datasource", "uid": "postgres_uid" },
+      "gridPos": { "h": 5, "w": 6, "x": 0, "y": 0 },
+      "id": 1,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "textMode": "auto"
       },
-      "gridPos": {
-        "h": 9,
-        "w": 12,
-        "x": 0,
-        "y": 0
-      },
+      "targets": [{
+        "datasource": { "type": "grafana-postgresql-datasource", "uid": "postgres_uid" },
+        "format": "table",
+        "rawQuery": true,
+        "rawSql": "SELECT xact_commit AS \"Commits\" FROM pg_stat_database WHERE datname = 'joomla';",
+        "refId": "A"
+      }],
+      "title": "Total Commits",
+      "type": "stat"
+    },
+    {
+      "datasource": { "type": "grafana-postgresql-datasource", "uid": "postgres_uid" },
+      "gridPos": { "h": 5, "w": 6, "x": 6, "y": 0 },
       "id": 2,
       "options": {
         "colorMode": "value",
         "graphMode": "area",
         "justifyMode": "auto",
         "orientation": "auto",
-        "reduceOptions": {
-          "calcs": ["lastNotNull"],
-          "fields": "",
-          "values": false
-        },
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
         "textMode": "auto"
       },
-      "targets": [
-        {
-          "datasource": {
-            "type": "grafana-postgresql-datasource",
-            "uid": "postgres_uid"
-          },
-          "format": "table",
-          "rawQuery": true,
-          "rawSql": "SELECT xact_commit AS metric FROM pg_stat_database WHERE datname = 'joomla';",
-          "refId": "A"
-        }
-      ],
-      "title": "PostgreSQL Transactions (Commits)",
+      "targets": [{
+        "datasource": { "type": "grafana-postgresql-datasource", "uid": "postgres_uid" },
+        "format": "table",
+        "rawQuery": true,
+        "rawSql": "SELECT tup_fetched AS \"Tuplas\" FROM pg_stat_database WHERE datname = 'joomla';",
+        "refId": "A"
+      }],
+      "title": "Total Tuplas Leidas",
       "type": "stat"
     },
     {
-      "datasource": {
-        "type": "grafana-postgresql-datasource",
-        "uid": "postgres_uid"
+      "datasource": { "type": "grafana-postgresql-datasource", "uid": "postgres_uid" },
+      "gridPos": { "h": 5, "w": 6, "x": 12, "y": 0 },
+      "id": 3,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "textMode": "auto"
       },
-      "gridPos": {
-        "h": 9,
-        "w": 12,
-        "x": 12,
-        "y": 0
-      },
+      "targets": [{
+        "datasource": { "type": "grafana-postgresql-datasource", "uid": "postgres_uid" },
+        "format": "table",
+        "rawQuery": true,
+        "rawSql": "SELECT tup_inserted AS \"Insertadas\" FROM pg_stat_database WHERE datname = 'joomla';",
+        "refId": "A"
+      }],
+      "title": "Total Filas Insertadas",
+      "type": "stat"
+    },
+    {
+      "datasource": { "type": "grafana-postgresql-datasource", "uid": "postgres_uid" },
+      "gridPos": { "h": 5, "w": 6, "x": 18, "y": 0 },
       "id": 4,
       "options": {
         "colorMode": "value",
         "graphMode": "area",
         "justifyMode": "auto",
         "orientation": "auto",
-        "reduceOptions": {
-          "calcs": ["lastNotNull"],
-          "fields": "",
-          "values": false
-        },
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
         "textMode": "auto"
       },
-      "targets": [
-        {
-          "datasource": {
-            "type": "grafana-postgresql-datasource",
-            "uid": "postgres_uid"
-          },
-          "format": "table",
-          "rawQuery": true,
-          "rawSql": "SELECT tup_fetched AS metric FROM pg_stat_database WHERE datname = 'joomla';",
-          "refId": "A"
+      "targets": [{
+        "datasource": { "type": "grafana-postgresql-datasource", "uid": "postgres_uid" },
+        "format": "table",
+        "rawQuery": true,
+        "rawSql": "SELECT numbackends AS \"Conexiones\" FROM pg_stat_database WHERE datname = 'joomla';",
+        "refId": "A"
+      }],
+      "title": "Conexiones Activas",
+      "type": "stat"
+    },
+    {
+      "datasource": { "type": "grafana-postgresql-datasource", "uid": "postgres_uid" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 25,
+            "gradientMode": "opacity",
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": { "group": "A", "mode": "none" }
+          }
         }
-      ],
-      "title": "PostgreSQL Tuples Fetched",
+      },
+      "gridPos": { "h": 10, "w": 12, "x": 0, "y": 5 },
+      "id": 5,
+      "options": {
+        "legend": { "calcs": ["lastNotNull", "max"], "displayMode": "table", "placement": "bottom" },
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [{
+        "datasource": { "type": "grafana-postgresql-datasource", "uid": "postgres_uid" },
+        "format": "time_series",
+        "rawQuery": true,
+        "rawSql": "SELECT now() AS time, xact_commit AS \"Commits\", xact_rollback AS \"Rollbacks\" FROM pg_stat_database WHERE datname = 'joomla';",
+        "refId": "A"
+      }],
+      "title": "Transacciones en Tiempo Real",
+      "type": "timeseries"
+    },
+    {
+      "datasource": { "type": "grafana-postgresql-datasource", "uid": "postgres_uid" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 25,
+            "gradientMode": "opacity",
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": { "group": "A", "mode": "none" }
+          }
+        }
+      },
+      "gridPos": { "h": 10, "w": 12, "x": 12, "y": 5 },
+      "id": 6,
+      "options": {
+        "legend": { "calcs": ["lastNotNull", "max"], "displayMode": "table", "placement": "bottom" },
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [{
+        "datasource": { "type": "grafana-postgresql-datasource", "uid": "postgres_uid" },
+        "format": "time_series",
+        "rawQuery": true,
+        "rawSql": "SELECT now() AS time, tup_fetched AS \"Leidas\", tup_inserted AS \"Insertadas\", tup_updated AS \"Actualizadas\", tup_deleted AS \"Eliminadas\" FROM pg_stat_database WHERE datname = 'joomla';",
+        "refId": "A"
+      }],
+      "title": "Operaciones de Datos en Tiempo Real",
+      "type": "timeseries"
+    },
+    {
+      "datasource": { "type": "grafana-postgresql-datasource", "uid": "postgres_uid" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "yellow", "value": 50 },
+              { "color": "red", "value": 100 }
+            ]
+          },
+          "max": 200
+        }
+      },
+      "gridPos": { "h": 8, "w": 8, "x": 0, "y": 15 },
+      "id": 7,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "auto",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "sizing": "auto"
+      },
+      "targets": [{
+        "datasource": { "type": "grafana-postgresql-datasource", "uid": "postgres_uid" },
+        "format": "table",
+        "rawQuery": true,
+        "rawSql": "SELECT numbackends AS \"Conexiones\" FROM pg_stat_database WHERE datname = 'joomla';",
+        "refId": "A"
+      }],
+      "title": "Medidor de Conexiones Activas",
+      "type": "gauge"
+    },
+    {
+      "datasource": { "type": "grafana-postgresql-datasource", "uid": "postgres_uid" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": { "hideFrom": { "legend": false, "tooltip": false, "viz": false } }
+        }
+      },
+      "gridPos": { "h": 8, "w": 8, "x": 8, "y": 15 },
+      "id": 8,
+      "options": {
+        "legend": { "displayMode": "table", "placement": "right", "values": ["value"] },
+        "pieType": "donut",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "tooltip": { "mode": "single" }
+      },
+      "targets": [{
+        "datasource": { "type": "grafana-postgresql-datasource", "uid": "postgres_uid" },
+        "format": "table",
+        "rawQuery": true,
+        "rawSql": "SELECT tup_fetched AS \"Leidas\", tup_inserted AS \"Insertadas\", tup_updated AS \"Actualizadas\", tup_deleted AS \"Eliminadas\" FROM pg_stat_database WHERE datname = 'joomla';",
+        "refId": "A"
+      }],
+      "title": "Distribucion de Operaciones",
+      "type": "piechart"
+    },
+    {
+      "datasource": { "type": "grafana-postgresql-datasource", "uid": "postgres_uid" },
+      "gridPos": { "h": 8, "w": 8, "x": 16, "y": 15 },
+      "id": 9,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "textMode": "value_and_name"
+      },
+      "targets": [{
+        "datasource": { "type": "grafana-postgresql-datasource", "uid": "postgres_uid" },
+        "format": "table",
+        "rawQuery": true,
+        "rawSql": "SELECT blks_hit AS \"Cache Hits\", blks_read AS \"Lecturas Disco\" FROM pg_stat_database WHERE datname = 'joomla';",
+        "refId": "A"
+      }],
+      "title": "Rendimiento del Cache vs Disco",
       "type": "stat"
     }
   ],
