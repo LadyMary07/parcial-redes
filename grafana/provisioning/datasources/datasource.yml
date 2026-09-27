@@ -3,10 +3,10 @@ datasources:
   - name: PostgreSQL
     type: postgres
     url: database:5432
-    database: ${POSTGRES_DB}
-    user: ${POSTGRES_USER}
+    database: joomla
+    user: joomla_user
     secureJsonData:
-      password: ${POSTGRES_PASSWORD}
+      password: joomla_secure_password
     jsonData:
       sslmode: "disable"
       postgresVersion: 1600
