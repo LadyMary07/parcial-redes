@@ -2,13 +2,14 @@ apiVersion: 1
 datasources:
   - name: PostgreSQL
     uid: postgres_uid
-    type: postgres
+    type: grafana-postgresql-datasource
     url: database:5432
     database: joomla
     user: joomla_user
     secureJsonData:
       password: joomla_secure_password
     jsonData:
+      database: joomla
       sslmode: "disable"
       postgresVersion: 1600
     isDefault: true
