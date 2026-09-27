@@ -10,7 +10,7 @@
   "liveNow": false,
   "panels": [
     {
-      "datasource": "PostgreSQL",
+      "datasource": {"type": "postgres", "uid": "postgres_uid"},
       "gridPos": {
         "h": 9,
         "w": 12,
@@ -34,7 +34,7 @@
       },
       "targets": [
         {
-          "datasource": "PostgreSQL",
+          "datasource": {"type": "postgres", "uid": "postgres_uid"},
           "format": "table",
           "rawQuery": true,
           "rawSql": "SELECT xact_commit AS metric FROM pg_stat_database WHERE datname = 'joomla';",
@@ -45,7 +45,7 @@
       "type": "stat"
     },
     {
-      "datasource": "PostgreSQL",
+      "datasource": {"type": "postgres", "uid": "postgres_uid"},
       "gridPos": {
         "h": 9,
         "w": 12,
@@ -69,7 +69,7 @@
       },
       "targets": [
         {
-          "datasource": "PostgreSQL",
+          "datasource": {"type": "postgres", "uid": "postgres_uid"},
           "format": "table",
           "rawQuery": true,
           "rawSql": "SELECT tup_fetched AS metric FROM pg_stat_database WHERE datname = 'joomla';",
