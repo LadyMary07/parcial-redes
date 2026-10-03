@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   nginx:
     image: nginx:alpine
@@ -13,6 +11,7 @@ services:
       - joomla
       - jupyter
       - grafana
+    restart: unless-stopped
 
   joomla:
     image: joomla:latest
@@ -22,6 +21,12 @@ services:
       JOOMLA_DB_PASSWORD: ${JOOMLA_DB_PASSWORD}
       JOOMLA_DB_NAME: ${JOOMLA_DB_NAME}
       JOOMLA_DB_TYPE: ${JOOMLA_DB_TYPE}
+      # Instalación automática: con estas variables la imagen oficial instala Joomla sola
+      JOOMLA_SITE_NAME: ${JOOMLA_SITE_NAME}
+      JOOMLA_ADMIN_USER: ${JOOMLA_ADMIN_USER}
+      JOOMLA_ADMIN_USERNAME: ${JOOMLA_ADMIN_USERNAME}
+      JOOMLA_ADMIN_PASSWORD: ${JOOMLA_ADMIN_PASSWORD}
+      JOOMLA_ADMIN_EMAIL: ${JOOMLA_ADMIN_EMAIL}
     volumes:
       - joomla_data:/var/www/html
       - joomla_logs:/var/log/apache2
@@ -31,6 +36,7 @@ services:
     depends_on:
       database:
         condition: service_healthy
+    restart: unless-stopped
 
   database:
     image: postgres:16-alpine
@@ -47,20 +53,32 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    restart: unless-stopped
 
   jupyter:
-    image: jupyter/base-notebook
+    build: ./jupyter
     user: root
     environment:
       - JUPYTER_ENABLE_LAB=yes
-      - JUPYTER_TOKEN=jupyter_admin
+      # Permite escribir en ./jupyter/notebooks sin importar el UID del usuario del anfitrión
+      - CHOWN_EXTRA=/home/jovyan/work
+      - CHOWN_EXTRA_OPTS=-R
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     volumes:
       - ./jupyter/notebooks:/home/jovyan/work
     networks:
       - frontend_net
       - backend_net
+    # Sin token ni contraseña: se entra directo a http://localhost/jupyter/
     command: >
-      bash -c "pip install psycopg2-binary sqlalchemy pandas matplotlib && start-notebook.sh --ServerApp.base_url=/jupyter --ServerApp.token='jupyter_admin'"
+      start-notebook.py
+      --ServerApp.base_url=/jupyter
+      --ServerApp.root_dir=/home/jovyan/work
+      --IdentityProvider.token=''
+      --ServerApp.password=''
+    restart: unless-stopped
 
   grafana:
     image: grafana/grafana:latest
@@ -80,6 +98,7 @@ services:
     depends_on:
       database:
         condition: service_healthy
+    restart: unless-stopped
 
 networks:
   frontend_net:
