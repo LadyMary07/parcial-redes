@@ -34,5 +34,39 @@ if [ "$EXISTS" = "0" ]; then
     echo "Module inserted successfully."
   fi
 else
-  echo "Module already exists."
+  echo "Module Enlaces Utiles already exists."
 fi
+
+echo "Checking if Escudo module exists..."
+EXISTS_ESCUDO=$(PGPASSWORD=$POSTGRES_PASSWORD psql -h database -U $POSTGRES_USER -d $POSTGRES_DB -t -c "SELECT count(*) FROM joom_modules WHERE title='Universidad Militar Nueva Granada';" | xargs)
+
+if [ "$EXISTS_ESCUDO" = "0" ]; then
+  echo "Inserting Escudo module..."
+  PGPASSWORD=$POSTGRES_PASSWORD psql -h database -U $POSTGRES_USER -d $POSTGRES_DB -t -c "
+    INSERT INTO joom_modules (title, note, content, ordering, position, published, module, access, showtitle, params, client_id, language)
+    VALUES (
+      'Universidad Militar Nueva Granada', 
+      '', 
+      '<div style=\"text-align: center; padding: 20px;\"><img src=\"/images/escudo.png\" alt=\"Escudo UMNG\" style=\"max-width: 250px; height: auto;\"></div>', 
+      0, 
+      'banner', 
+      1, 
+      'mod_custom', 
+      1, 
+      0, 
+      '{\"prepare_content\":\"1\",\"backgroundcolor\":\"\",\"backgroundimage\":\"\",\"layout\":\"_:default\",\"moduleclass_sfx\":\"\",\"cache\":\"1\",\"cache_time\":\"900\",\"cachemode\":\"static\"}', 
+      0, 
+      '*'
+    ) RETURNING id;" > /tmp/mod_escudo_id.txt
+
+  MOD_ESCUDO_ID=$(grep -oE '[0-9]+' /tmp/mod_escudo_id.txt | head -n 1)
+  
+  if [ -n "$MOD_ESCUDO_ID" ]; then
+    PGPASSWORD=$POSTGRES_PASSWORD psql -h database -U $POSTGRES_USER -d $POSTGRES_DB -c "
+      INSERT INTO joom_modules_menu (moduleid, menuid) VALUES ($MOD_ESCUDO_ID, 0);"
+    echo "Escudo module inserted successfully."
+  fi
+else
+  echo "Escudo module already exists."
+fi
+
