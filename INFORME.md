@@ -43,5 +43,34 @@ Para validar el ecosistema:
 
 1. Levantar con `docker compose up -d` y esperar aproximadamente 30-40 segundos para que PostgreSQL asuma el estado "healthy" y todos los servicios dependientes arranquen.
 2. Navegar a [http://localhost/](http://localhost/) (Joomla) y generar navegación básica por el sitio.
-3. Navegar a [http://localhost/grafana/](http://localhost/grafana/), iniciar sesión con admin/admin. Entrar a Dashboards -> "Joomla Dashboards". Verificar las dos gráficas de series temporales que muestran el crecimiento de transacciones y uso de PostgreSQL.
-4. Navegar a [http://localhost/jupyter/](http://localhost/jupyter/) usando la contraseña `jupyter_admin`. Entrar a `work/` -> `analisis_datos.ipynb` y ejecutar (Shift+Enter) todas las celdas de Python. Verificar que se instalen las dependencias `psycopg2-binary` e imprima satisfactoriamente la tabla que extrae del PostgreSQL.
+3. Navegar a [http://localhost/grafana/](http://localhost/grafana/) (si pide inicio de sesión, usa admin/admin o sáltalo). Entrar a Dashboards -> "Actividad de Base de Datos y Joomla". Verificar las gráficas de series temporales que muestran el crecimiento de transacciones y uso de PostgreSQL.
+4. Navegar a [http://localhost/jupyter/](http://localhost/jupyter/). Entrará de forma automática sin pedir Token. Entrar a `analisis_datos.ipynb` y ejecutar (Shift+Enter) todas las celdas de Python. Verificar que importe las librerías preinstaladas e imprima satisfactoriamente la tabla que extrae del PostgreSQL.
+
+---
+
+## Sección 4: Estructura de Archivos del Proyecto
+
+A continuación se muestra la distribución final ("tree") de los archivos del parcial:
+
+```text
+.
+├── GUIA_PARCIAL.md
+├── INFORME.md
+├── README.md
+├── docker-compose.yml
+├── escudo.svg
+├── grafana
+│   └── provisioning
+│       ├── dashboards
+│       │   ├── dashboard.yml
+│       │   └── joomla_logs.json
+│       └── datasources
+│           └── datasource.yml
+├── jupyter
+│   ├── Dockerfile
+│   └── notebooks
+│       └── analisis_datos.ipynb
+├── nginx
+│   └── default.conf
+└── setup-joomla.sh
+```
