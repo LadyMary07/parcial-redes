@@ -74,3 +74,14 @@ A continuación se muestra la distribución final ("tree") de los archivos del p
 │   └── default.conf
 └── setup-joomla.sh
 ```
+
+---
+
+## Sección 5: Estrategias de Automatización (Zero-Touch)
+
+Para cumplir con el requerimiento de que el proyecto se ejecute sin intervención manual en cualquier equipo, se implementaron las siguientes automatizaciones:
+
+1. **Instalación Desatendida de Joomla:** A través de variables de entorno (`JOOMLA_SITE_NAME`, `JOOMLA_ADMIN_USER`, etc.) en el `docker-compose.yml`, la imagen oficial de Joomla realiza la instalación completa de la base de datos sin mostrar el asistente web.
+2. **Sidecar de Inyección (setup-joomla.sh):** Un contenedor efímero basado en Alpine/Postgres espera a que Joomla genere sus tablas y luego inyecta directamente mediante SQL un módulo personalizado en la página principal. Este módulo incluye el escudo de la Universidad (descargado de Wikimedia Commons) y botones de acceso rápido a Jupyter y Grafana.
+3. **Resolución DNS Dinámica en Nginx:** Nginx falla críticamente si en el momento de arrancar no encuentra el host al que apunta un `proxy_pass`. Se implementó un `resolver 127.0.0.11 valid=10s;` y variables dinámicas (`set $joomla_up http://joomla:80;`) para tolerar que los contenedores backend tarden más en encender.
+4. **Jupyter con Dependencias Preinstaladas:** Se creó un `Dockerfile` propio para Jupyter que preinstala `psycopg2-binary`, `pandas`, `sqlalchemy` y `matplotlib`. Esto elimina la necesidad de ejecutar comandos `!pip install` en los cuadernos y evita fallos si el host no tiene conexión a internet rápida al momento del despliegue. Además, se deshabilitó el token de autenticación para facilitar el acceso instantáneo.

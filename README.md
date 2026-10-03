@@ -18,14 +18,14 @@ docker compose up -d
 
 ## Servicios Expuestos
 
-1. **Joomla**: Accesible en [http://localhost/](http://localhost/)
-2. **Jupyter Notebook**: Accesible en [http://localhost/jupyter/](http://localhost/jupyter/)
-   - *Token por defecto:* `jupyter_admin`
-   - *Nota:* Ya incluye un cuaderno `analisis_datos.ipynb` precargado con análisis hacia la base de datos PostgreSQL.
-3. **Grafana**: Accesible en [http://localhost/grafana/](http://localhost/grafana/)
-   - *Usuario:* `admin`
-   - *Contraseña:* `admin`
-   - *Nota:* Incluye un Dashboard precargado y un datasource conectado directamente a PostgreSQL de manera inmutable (provisioning).
+1. **Joomla (Sitio Web Principal)**: Accesible en [http://localhost/](http://localhost/)
+   - *Nota:* Joomla se autoconfigura al iniciar e incluye un panel de accesos directos al resto de las herramientas.
+2. **Jupyter Notebook (Análisis de Datos)**: Accesible en [http://localhost/jupyter/](http://localhost/jupyter/)
+   - *Autenticación:* Abierto (Token deshabilitado para desarrollo local).
+   - *Nota:* Ya incluye un cuaderno `analisis_datos.ipynb` precargado y ejecutado con análisis de las tablas de PostgreSQL. Las librerías de Python ya vienen embebidas en la imagen.
+3. **Grafana (Monitoreo y Métricas)**: Accesible en [http://localhost/grafana/](http://localhost/grafana/)
+   - *Usuario / Contraseña:* `admin` / `admin`
+   - *Nota:* Incluye un Dashboard precargado y un datasource conectado directamente a PostgreSQL de manera inmutable (provisioning). No es necesario realizar configuraciones manuales.
 
 ## Tecnologías Utilizadas
 - Docker
@@ -34,3 +34,18 @@ docker compose up -d
 - Joomla (CMS)
 - Jupyter (Data Science)
 - Grafana (Observabilidad y Monitoreo)
+
+## Estructura del Proyecto
+
+```text
+.
+├── GUIA_PARCIAL.md         # Instrucciones y rúbrica
+├── INFORME.md              # Documentación técnica y análisis OSI
+├── README.md               # Este archivo
+├── docker-compose.yml      # Orquestación de contenedores
+├── escudo.svg              # Recurso gráfico inyectado en Joomla
+├── grafana/                # Dashboards y datasources aprovisionados
+├── jupyter/                # Dockerfile e imágenes con cuadernos
+├── nginx/                  # Reglas del proxy reverso (Edge Router)
+└── setup-joomla.sh         # Script sidecar de automatización Zero-Touch
+```
