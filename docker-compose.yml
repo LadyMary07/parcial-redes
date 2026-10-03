@@ -30,7 +30,7 @@ services:
     volumes:
       - joomla_data:/var/www/html
       - joomla_logs:/var/log/apache2
-      - ./escudo.png:/var/www/html/images/escudo.png:ro
+      - ./escudo.svg:/var/www/html/images/escudo.svg:ro
     networks:
       - frontend_net
       - backend_net

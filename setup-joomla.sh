@@ -47,7 +47,7 @@ if [ "$EXISTS_ESCUDO" = "0" ]; then
     VALUES (
       'Universidad Militar Nueva Granada', 
       '', 
-      '<div style=\"text-align: center; padding: 20px;\"><img src=\"/images/escudo.png\" alt=\"Escudo UMNG\" style=\"max-width: 250px; height: auto;\"></div>', 
+      '<div style=\"text-align: center; padding: 20px;\"><img src=\"/images/escudo.svg\" alt=\"Escudo UMNG\" style=\"max-width: 250px; height: auto;\"></div>', 
       0, 
       'banner', 
       1, 
